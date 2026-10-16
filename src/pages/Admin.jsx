@@ -310,7 +310,7 @@ function Dashboard() {
     const isCourse = b.service_category === "Beginner Nail Course";
     const timeString = isCourse ? "" : ` at ${b.preferred_time || "your time"}`;
     
-    return `Hi ${b.client_name || "there"}!\n\nYour booking for ${b.service_detail || "your service"} on ${b.preferred_date || "your date"}${timeString} has been confirmed. We can't wait to see you!\n\n📍 Sangro House\nFloor 10 room 1015\n\n⏰ Please arrive at least 15 minutes early to give time to queue for the lift\nRemember to arrive 30 minutes early if you require a soak off.\n\n⚠️ Late Arrival Policy: If you arrive 15 minutes or more late, your booking will be automatically cancelled. Please WhatsApp us if you are running behind.\n\n❌ Cancellation Policy: Please notify us at least 24 hours in advance if you need to cancel or reschedule.\n\n— Bloom Skills & Beauty`;
+    return `Hi ${b.client_name || "there"}!\n\nYour booking for ${b.service_detail || "your service"} on ${b.preferred_date || "your date"}${timeString} has been confirmed. We can't wait to see you!\n\n Sangro House\nFloor 10 room 1015\n\n Please arrive at least 15 minutes early to give time to queue for the lift\nRemember to arrive 30 minutes early if you require a soak off.\n\n Late Arrival Policy: If you arrive 15 minutes or more late, your booking will be automatically cancelled. Please WhatsApp us if you are running behind.\n\n Cancellation Policy: Please notify us at least 24 hours in advance if you need to cancel or reschedule.\n\n— Bloom Skills & Beauty`;
   };
 
   const generateCancellationMessage = (b) => {
