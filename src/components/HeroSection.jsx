@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 const stats = [
-  { value: "8am–4pm", label: "Daily Hours" },
+  { value: "8am–6pm", label: "Daily Hours" },
   { value: "R150+", label: "Starting Price" },
   { value: "R4,500", label: "Nail Course" },
 ];

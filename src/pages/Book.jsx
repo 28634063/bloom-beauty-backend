@@ -161,7 +161,7 @@ export default function Book() {
     const duration = form.duration_minutes || 90;
     const endMin = startMin + duration;
     const isSaturday = date.getDay() === 6;
-    const closingMin = isSaturday ? toMinutes("14:30") : toMinutes("16:30");
+    const closingMin = isSaturday ? toMinutes("14:30") : toMinutes("18:30");
 
     if (endMin > closingMin) return false;
 
@@ -266,7 +266,7 @@ export default function Book() {
 
   const isLastStep = step === LAST_STEP;
   const isSaturday = date?.getDay() === 6;
-  const candidateTimeSlots = generateCandidateSlots("08:00", isSaturday ? "14:30" : "16:30");
+  const candidateTimeSlots = generateCandidateSlots("08:00", isSaturday ? "14:30" : "18:30");
 
   return (
     <div className="min-h-screen py-8 sm:py-12 md:py-20 px-4 sm:px-6">
@@ -496,7 +496,7 @@ export default function Book() {
                       </p>
                     )}
                     <p className="text-center text-xs text-muted-foreground mt-2">
-                      🚫 Closed on Sundays · Saturday last entry 14:00
+                      🚫 Closed on Sundays · Weekday last entry 18:00 · Saturday last entry 14:00
                     </p>
                   </div>
 
