@@ -18,7 +18,6 @@ export default function NailArtMasterclass() {
   return (
     <div className="py-12 sm:py-20 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-10">
           <p className="text-primary text-sm font-medium uppercase tracking-widest mb-3">1-on-1 Upskilling Session</p>
           <h1 className="font-heading text-4xl sm:text-5xl font-bold text-foreground mb-3">
@@ -30,12 +29,10 @@ export default function NailArtMasterclass() {
           </p>
         </div>
 
-        {/* Masterclass Image Showcase */}
         <div className="mb-12 rounded-3xl overflow-hidden shadow-xl max-w-md mx-auto border border-border/50">
           <img src={NailArt} alt="Nail Art Masterclass" className="w-full h-auto object-cover max-h-[350px]" />
         </div>
 
-        {/* Main Details Card */}
         <div className="rounded-3xl border border-border/50 bg-card p-6 sm:p-10 shadow-lg mb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 pb-8 border-b border-border/60">
             <div className="flex items-center gap-4 bg-secondary/40 rounded-2xl p-4">
@@ -78,15 +75,15 @@ export default function NailArtMasterclass() {
             ))}
           </div>
 
-          {/* CTA */}
-          <div className="text-center bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/30 rounded-2xl p-8 border border-primary/20">
+          {/* CTA - Fixed width and wrapping for mobile */}
+          <div className="text-center bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/30 rounded-2xl p-6 sm:p-8 border border-primary/20">
             <p className="text-sm text-muted-foreground mb-4">
               Limited 1-on-1 slots available. Book your date directly via WhatsApp!
             </p>
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="rounded-full px-10 bg-green-600 hover:bg-green-700 text-white gap-2 shadow-lg">
-                <MessageCircle className="w-5 h-5" />
-                Inquire & Book via WhatsApp (079 806 0310)
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block w-full">
+              <Button size="lg" className="w-full sm:w-auto rounded-full px-6 sm:px-10 bg-green-600 hover:bg-green-700 text-white gap-2 shadow-lg text-xs sm:text-sm whitespace-normal h-auto py-3">
+                <MessageCircle className="w-5 h-5 shrink-0" />
+                <span>Inquire & Book via WhatsApp (079 806 0310)</span>
               </Button>
             </a>
           </div>
