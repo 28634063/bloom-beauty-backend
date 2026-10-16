@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Check, GraduationCap, CalendarDays, Award, BookOpen, Sparkles, MessageCircle } from "lucide-react";
+import { Check, CalendarDays, Award, Sparkles, MessageCircle } from "lucide-react";
 import { BeginnerCourse } from "@/lib/images";
 
 const modules = [
@@ -14,7 +13,7 @@ const modules = [
 
 export default function NailCourse() {
   const whatsappUrl = `https://wa.me/27798060310?text=${encodeURIComponent(
-    "Hi Bloom Skills & Beauty! I would like to inquire about the Beginner Nail Course (R4,500)."
+    "Hi Bloom Skills & Beauty! I would like to inquire/book the Beginner Nail Course (R4,500)."
   )}`;
 
   return (
@@ -77,24 +76,17 @@ export default function NailCourse() {
             ))}
           </div>
 
-          {/* CTA - Includes both Enrol Online and WhatsApp Inquire */}
-          <div className="text-center bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/30 rounded-2xl p-6 sm:p-8 border border-primary/20 space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Ready to start your beauty career? Secure your spot with a 50% deposit (R2,250).
+          {/* CTA - WhatsApp Inquire Only */}
+          <div className="text-center bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/30 rounded-2xl p-6 sm:p-8 border border-primary/20">
+            <p className="text-sm text-muted-foreground mb-4">
+              Ready to start your beauty career? Secure your spot directly via WhatsApp!
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/book?service=course" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full rounded-full px-8 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg">
-                  Enrol Online ✨
-                </Button>
-              </Link>
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full rounded-full px-8 bg-green-600 hover:bg-green-700 text-white gap-2 shadow-lg">
-                  <MessageCircle className="w-5 h-5 shrink-0" />
-                  <span>WhatsApp Enquiry</span>
-                </Button>
-              </a>
-            </div>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block w-full">
+              <Button size="lg" className="w-full sm:w-auto rounded-full px-6 sm:px-10 bg-green-600 hover:bg-green-700 text-white gap-2 shadow-lg text-xs sm:text-sm whitespace-normal h-auto py-3">
+                <MessageCircle className="w-5 h-5 shrink-0" />
+                <span>Inquire & Book via WhatsApp (079 806 0310)</span>
+              </Button>
+            </a>
           </div>
         </div>
       </div>
