@@ -5,7 +5,7 @@
 
 export const heroImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/aboutimage.jpg";
 export const aboutImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/aboutimage.jpg";
-export const courseImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/courseimage.jpg";
+export const courseImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/master.jpeg";
 export const Drill = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/drill.jpeg";
 export const BeginnerCourse = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/master.jpeg";
 export const NailArt = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/art.jpeg";
