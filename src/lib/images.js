@@ -3,15 +3,18 @@
  * Replace these with your own hosted images (e.g. Cloudinary, Netlify Large Media, or /public folder).
  */
 
-export const heroImage = "https://nawvlubfprsegrtyqyjo.supabase.co/storage/v1/object/public/images/c8cd671aa_WhatsAppImage2026-03-29at1611561.jpg";
-export const courseImage = "https://nawvlubfprsegrtyqyjo.supabase.co/storage/v1/object/public/images/6c4856f9a_WhatsAppImage2026-03-29at161158.jpg";
-export const aboutImage = "https://nawvlubfprsegrtyqyjo.supabase.co/storage/v1/object/public/images/c8cd671aa_WhatsAppImage2026-03-29at1611561.jpg";
+export const heroImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/about%20image.jpg";
+export const aboutImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/about%20image.jpg";
+export const courseImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/course%20image.jpg";
+export const Drill = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/drill.jpeg%22;";
+export const BeginnerCourse = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/master.jpeg%22;";
+
 
 export const galleryImages = [
-  { src: "https://media.base44.com/images/public/69c85189646ba632d738f811/3c4247ab4_WhatsAppImage2026-03-29at1611562.jpg", alt: "White Cream Nails" },
-  { src: "https://media.base44.com/images/public/69c85189646ba632d738f811/1c5013149_WhatsAppImage2026-03-29at161156.jpg", alt: "French Pedicure Sandals" },
-  { src: "https://media.base44.com/images/public/69c85189646ba632d738f811/6c198fdec_WhatsAppImage2026-03-29at161157.jpg", alt: "Stiletto White Nails" },
-  { src: "https://media.base44.com/images/public/69c85189646ba632d738f811/8d7cc2c0f_WhatsAppImage2026-03-29at1611581.jpg", alt: "French Toe Nails" },
-  { src: "https://media.base44.com/images/public/69c85189646ba632d738f811/6c4856f9a_WhatsAppImage2026-03-29at161158.jpg", alt: "Floral Nail Art" },
-  { src: "https://media.base44.com/images/public/69c85189646ba632d738f811/d1ea245fa_WhatsAppImage2026-03-29at1611561.jpg", alt: "Silver Bow Stiletto Nails" },
+  { src: "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/1.jpg" },
+  { src: "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/2.jpg" },
+  { src: "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/3.jpg" },
+  { src: "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/3.jpg" },
+  { src: "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/5.jpg" },
+  { src: "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/6.jpg" },  
 ];
