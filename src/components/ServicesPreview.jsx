@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { aboutImage } from "@/lib/images";
+import { aboutImage, Drill, NailArt } from "@/lib/images";
 import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 const services = [
   {
     title: "Nail Services",
     description: "Acrylic extensions, gel services, pedicures & stunning designs — from classic to bold.",
-    icon: "",
+    icon: "💅",
     priceDisplay: "From R150",
     image: aboutImage,
     link: "/services#nails",
@@ -16,7 +16,7 @@ const services = [
   {
     title: "Beginner Nail Course",
     description: "2-week comprehensive beginner course with certificate, mentorship & training kit included.",
-    icon: "",
+    icon: "🎓",
     priceDisplay: "R4,500",
     image: aboutImage,
     link: "/nail-course",
@@ -24,17 +24,17 @@ const services = [
   {
     title: "Nail Drill / E-File Masterclass",
     description: "Master electric filing techniques, safe cuticle work, prepping, debulking & refined finishing.",
-    icon: "",
+    icon: "⚡",
     priceDisplay: "R1,500",
-    image: aboutImage,
+    image: Drill,
     link: "/nail-drill-masterclass",
   },
   {
     title: "Nail Art Masterclass",
     description: "Elevate your creativity with 3D art, French variations, ombré, marbling, chrome & trending designs.",
-    icon: "",
+    icon: "🎨",
     priceDisplay: "R950",
-    image: aboutImage,
+    image: NailArt,
     link: "/nail-art-masterclass",
   },
 ];

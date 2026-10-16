@@ -3,12 +3,12 @@
  * Replace these with your own hosted images (e.g. Cloudinary, Netlify Large Media, or /public folder).
  */
 
-export const heroImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/about%20image.jpg";
-export const aboutImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/about%20image.jpg";
-export const courseImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/course%20image.jpg";
-export const Drill = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/drill.jpeg%22;";
-export const BeginnerCourse = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/master.jpeg%22;";
-
+export const heroImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/aboutimage.jpg";
+export const aboutImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/aboutimage.jpg";
+export const courseImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/courseimage.jpg";
+export const Drill = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/drill.jpeg";
+export const BeginnerCourse = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/master.jpeg";
+export const NailArt = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/art.jpeg";
 
 export const galleryImages = [
   { src: "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/1.jpg" },

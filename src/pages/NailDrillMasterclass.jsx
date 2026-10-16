@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check, ShieldCheck, MessageCircle, Clock, Zap, Gift } from "lucide-react";
+import { Drill } from "@/lib/images";
 
 const curriculum = [
   { title: "Correct bits to use", desc: "Understanding bit materials, shapes, grits, and specific applications." },
@@ -19,7 +20,7 @@ export default function NailDrillMasterclass() {
     <div className="py-12 sm:py-20 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <p className="text-primary text-sm font-medium uppercase tracking-widest mb-3">Comprehensive Hands-On Masterclass</p>
           <h1 className="font-heading text-4xl sm:text-5xl font-bold text-foreground mb-3">
             ⚡ Nail Drill / E-File Masterclass 💅
@@ -28,6 +29,11 @@ export default function NailDrillMasterclass() {
           <p className="text-muted-foreground max-w-lg mx-auto text-sm leading-relaxed">
             Upgrade your speed, safety, and precision. Master the electric file to save hours at your nail desk and provide cleaner, longer-lasting sets.
           </p>
+        </div>
+
+        {/* Masterclass Image Showcase */}
+        <div className="mb-12 rounded-3xl overflow-hidden shadow-xl max-w-md mx-auto border border-border/50">
+          <img src={Drill} alt="Nail Drill Masterclass" className="w-full h-auto object-cover max-h-[350px]" />
         </div>
 
         {/* Main Details Card */}
@@ -66,7 +72,7 @@ export default function NailDrillMasterclass() {
             <div>
               <p className="font-bold text-foreground text-sm uppercase tracking-wide">Included with your class:</p>
               <p className="text-muted-foreground text-xs mt-0.5">
-                • Quality Nail Drill Machine &nbsp;|&nbsp; • Set of Essential Professional Drill Bits
+                • Quality Nail Drill Machine &nbsp;|&nbsp; Set of Essential Professional Drill Bits
               </p>
             </div>
           </div>

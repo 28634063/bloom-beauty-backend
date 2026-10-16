@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles, MessageCircle, Clock, UserCheck } from "lucide-react";
+import { NailArt } from "@/lib/images";
 
 const curriculum = [
   { title: "Advanced Nail Art", desc: "Master intricate line work, trending designs & advanced patterns." },
@@ -18,7 +19,7 @@ export default function NailArtMasterclass() {
     <div className="py-12 sm:py-20 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <p className="text-primary text-sm font-medium uppercase tracking-widest mb-3">1-on-1 Upskilling Session</p>
           <h1 className="font-heading text-4xl sm:text-5xl font-bold text-foreground mb-3">
             🎨 Nail Art Masterclass ✨
@@ -27,6 +28,11 @@ export default function NailArtMasterclass() {
           <p className="text-muted-foreground max-w-lg mx-auto text-sm leading-relaxed">
             Designed for nail techs who are looking to improve their nail art techniques and elevate the overall quality and speed of their work.
           </p>
+        </div>
+
+        {/* Masterclass Image Showcase */}
+        <div className="mb-12 rounded-3xl overflow-hidden shadow-xl max-w-md mx-auto border border-border/50">
+          <img src={NailArt} alt="Nail Art Masterclass" className="w-full h-auto object-cover max-h-[350px]" />
         </div>
 
         {/* Main Details Card */}
