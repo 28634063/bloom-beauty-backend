@@ -45,21 +45,21 @@ const generateCandidateSlots = (openTime = "08:00", closeTime = "16:00") => {
 const SERVICE_OPTIONS = [
   {
     id: "hands",
-    title: "Hands Only 💅",
+    title: "Hands Only",
     subtitle: "Acrylic, Gel or Overlays",
     duration: 90,
     priceNote: "From R150",
   },
   {
     id: "toes",
-    title: "Toes Only 🦶",
+    title: "Toes Only",
     subtitle: "Gel, Acrylic or Pedicure",
     duration: 30,
     priceNote: "From R120",
   },
   {
     id: "both",
-    title: "Hands & Toes ✨",
+    title: "Hands & Toes",
     subtitle: "Full combo treatment",
     duration: 120,
     priceNote: "From R270",
