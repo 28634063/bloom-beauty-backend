@@ -2,14 +2,17 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 const stats = [
   { value: "8am–4pm", label: "Daily Hours" },
   { value: "R150+", label: "Starting Price" },
-  { value: "R3,500", label: "Nail Course" },
+  { value: "R4,500", label: "Nail Course" },
 ];
 
 export default function HeroSection({ heroImage }) {
+  const { openBookingModal } = useBookingPolicy();
+
   return (
     <section className="relative min-h-[95vh] flex items-center overflow-hidden">
       {/* Background */}
@@ -76,23 +79,33 @@ export default function HeroSection({ heroImage }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35 }}
-            className="flex flex-col sm:flex-row gap-4 mb-16"
+            className="flex flex-col sm:flex-row flex-wrap gap-4 mb-16"
           >
-            <Link to="/book">
-              <Button
-                size="lg"
-                className="rounded-full px-8 text-base bg-primary hover:bg-primary/90 text-white shadow-2xl shadow-primary/30 gap-2 group"
-              >
-                Book Appointment
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              onClick={() => openBookingModal()}
+              className="w-full sm:w-auto rounded-full px-8 text-base bg-primary hover:bg-primary/90 text-white shadow-2xl shadow-primary/30 gap-2 group"
+            >
+              Book Appointment
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+
             <Link to="/services" className="w-full sm:w-auto">
               <Button
                 size="lg"
                 className="w-full sm:w-auto rounded-full px-8 text-base bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm border border-white/30"
               >
                 View Services
+              </Button>
+            </Link>
+
+            {/* New T&Cs Button */}
+            <Link to="/terms" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                className="w-full sm:w-auto rounded-full px-8 text-base bg-transparent hover:bg-white/10 text-white backdrop-blur-sm border border-white/30"
+              >
+                T&Cs
               </Button>
             </Link>
           </motion.div>

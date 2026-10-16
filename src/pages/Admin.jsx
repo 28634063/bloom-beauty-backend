@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CheckCircle, XCircle, Clock, Search, RefreshCw, Phone, Mail, Calendar, Loader2, RotateCcw } from "lucide-react";
+import { CheckCircle, XCircle, Clock, Search, RefreshCw, Phone, Mail, Calendar, Loader2, RotateCcw, Lock } from "lucide-react";
 import { subDays, parseISO, isAfter } from "date-fns";
 import AdminAnalytics from "../components/AdminAnalytics";
 import { motion } from "framer-motion";
@@ -24,12 +24,13 @@ const STATUS_ICONS = {
 };
 
 function LoginScreen() {
-  const [email, setEmail]     = useState("");
-  const [error, setError]     = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail]       = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError]       = useState("");
+  const [loading, setLoading]   = useState(false);
 
   const ADMIN_EMAILS = [
-    "phunyezwamjoli3@gmail.com",
+    "s.m.shozi@hotmail.com",
     "bloomskillsandbeauty@icloud.com",
     "thobsin.e@gmail.com",
   ];
@@ -39,23 +40,30 @@ function LoginScreen() {
     setLoading(true);
     setError("");
     const emailLower = email.trim().toLowerCase();
+    
     try {
       let user;
       try {
-        user = await ndumie.auth.login(emailLower);
+        user = await ndumie.auth.login(emailLower, password);
       } catch (_) {
-        // Local dev fallback
         if (ADMIN_EMAILS.includes(emailLower)) {
+          const envPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+          
+          if (envPassword && password !== envPassword) {
+            throw new Error("Incorrect password.");
+          }
+          
           user = {
             role: "admin",
             email: emailLower,
             name: emailLower.split("@")[0],
-            token: import.meta.env.VITE_ADMIN_PASSWORD ?? "",
+            token: envPassword ?? "",
           };
         } else {
           throw new Error("This email is not registered as an admin.");
         }
       }
+      
       localStorage.setItem("bloom_admin_session", JSON.stringify({
         role:  user.role,
         email: user.email,
@@ -64,7 +72,7 @@ function LoginScreen() {
       }));
       window.location.reload();
     } catch (err) {
-      setError(err.message || "This email is not authorised.");
+      setError(err.message || "Invalid email or password.");
     } finally {
       setLoading(false);
     }
@@ -94,6 +102,20 @@ function LoginScreen() {
               />
             </div>
           </div>
+          <div>
+            <label className="text-sm font-medium text-foreground block mb-1.5">Password</label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError(""); }}
+                className="rounded-xl h-11 pl-9"
+                autoComplete="current-password"
+              />
+            </div>
+          </div>
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-700">
               ⚠️ {error}
@@ -101,20 +123,16 @@ function LoginScreen() {
           )}
           <Button
             type="submit"
-            disabled={loading || !email.trim()}
-            className="w-full rounded-xl h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+            disabled={loading || !email.trim() || !password.trim()}
+            className="w-full rounded-xl h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold mt-2"
           >
-            {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Checking...</> : "Continue"}
+            {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Authenticating...</> : "Secure Login"}
           </Button>
         </form>
-        <p className="text-xs text-muted-foreground text-center mt-6">
-          Only registered admin emails can access the dashboard.
-        </p>
       </div>
     </div>
   );
 }
-
 function NotAuthorized() {
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -141,7 +159,7 @@ function Dashboard() {
   const [newMsg, setNewMsg] = useState("");
   const [newType, setNewType] = useState("info");
   const [savingAnn, setSavingAnn] = useState(false);
-  const [editingAnn, setEditingAnn] = useState(null); // { id, message, type }
+  const [editingAnn, setEditingAnn] = useState(null);
   const [savingEdit, setSavingEdit] = useState(false);
   const [migrateJson, setMigrateJson] = useState("");
   const [migrating, setMigrating] = useState(false);
@@ -155,7 +173,6 @@ function Dashboard() {
   const [savingUser, setSavingUser] = useState(false);
   const [seeding, setSeeding] = useState(false);
   
-  // Ref to prevent concurrent fetches
   const fetchingRef = useRef(false);
 
   const showToast = (msg, type = "success") => {
@@ -164,15 +181,9 @@ function Dashboard() {
   };
 
   const fetchBookings = async (isRefresh = false) => {
-    // Prevent concurrent fetches
-    if (fetchingRef.current) {
-      console.log('Fetch already in progress, skipping');
-      return;
-    }
-    
+    if (fetchingRef.current) return;
     fetchingRef.current = true;
     
-    // Don't set loading on refresh to avoid UI flicker
     if (!isRefresh) {
       setLoading(true);
       setIsInitialLoad(true);
@@ -182,23 +193,15 @@ function Dashboard() {
     try {
       const result = await ndumie.entities.Booking.filter({});
       
-      // Enhanced validation: ensure result is a valid array
       if (!Array.isArray(result)) {
-        console.warn('Bookings API returned non-array data:', result);
         throw new Error('Invalid data format received from server');
       }
       
-      // Filter out any null/undefined entries and validate each booking
       const validBookings = result.filter(booking => {
-        if (!booking || typeof booking !== 'object') {
-          console.warn('Invalid booking entry found:', booking);
-          return false;
-        }
-        // Ensure required fields exist
+        if (!booking || typeof booking !== 'object') return false;
         return booking.id && booking.client_name;
       });
       
-      // Sort newest date first with safe date handling
       validBookings.sort((a, b) => {
         try {
           const dateA = new Date(a.preferred_date || '1970-01-01');
@@ -209,24 +212,19 @@ function Dashboard() {
           const createdB = new Date(b.created_date || '1970-01-01');
           return createdB.getTime() - createdA.getTime();
         } catch (err) {
-          console.warn('Error sorting bookings:', err);
           return 0;
         }
       });
       
       setBookings(validBookings);
     } catch (err) {
-      console.error("Failed to fetch bookings:", err);
       const msg = err?.message || "Failed to load bookings";
       setFetchError(
         msg.includes("env vars")
-          ? "⚠️ Server configuration error: Supabase environment variables are not set. Please add SUPABASE_URL and SUPABASE_ANON_KEY to your Netlify site settings → Environment Variables."
-          : `⚠️ ${msg}. Please check your Netlify function logs and ensure environment variables (SUPABASE_URL, SUPABASE_ANON_KEY, ADMIN_TOKEN) are set in Netlify → Site Settings → Environment Variables.`
+          ? "⚠️ Server configuration error: Supabase environment variables are not set."
+          : `⚠️ ${msg}. Please check your Netlify function logs.`
       );
-      // Keep existing bookings if this is a refresh/retry
-      if (!isRefresh) {
-        setBookings([]);
-      }
+      if (!isRefresh) setBookings([]);
     } finally {
       setLoading(false);
       setIsInitialLoad(false);
@@ -242,25 +240,19 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    // Initial data load
     fetchBookings();
     fetchAnnouncements();
     fetchUsers();
     
-    // Set up polling interval for bookings (every 30 seconds)
     const interval = setInterval(() => {
-      // Only refresh if not currently fetching
-      if (!fetchingRef.current) {
-        fetchBookings(true);
-      }
+      if (!fetchingRef.current) fetchBookings(true);
     }, 30000);
     
-    // Cleanup interval and ref on unmount
     return () => {
       clearInterval(interval);
       fetchingRef.current = false;
     };
-  }, []); // Empty dependency array - only run once on mount
+  }, []);
 
   const addAnnouncement = async () => {
     if (!newMsg.trim()) return;
@@ -313,6 +305,17 @@ function Dashboard() {
     }
   };
 
+  // Safe, single-line template literals for WhatsApp messages
+  const generateWhatsAppMessage = (b) => {
+    const isCourse = b.service_category === "Beginner Nail Course";
+    const timeString = isCourse ? "" : ` at *${b.preferred_time || "your time"}*`;
+    return `Hi ${b.client_name || "there"}! 🌸\n\nYour booking for *${b.service_detail || "your service"}* on *${b.preferred_date || "your date"}*${timeString} has been *CONFIRMED*!\n\n📍 *Location:* Sangro House, Durban\n📞 *Contact:* 079 806 0310\n\n⚠️ *IMPORTANT POLICIES:*\n• *Lateness:* Please arrive at least 15 mins early. A strict 15-min grace period applies. If you are 15+ mins late, your booking is automatically cancelled and the deposit forfeited.\n• *Cancellations:* Rescheduling or cancellations must be done at least 24 hours in advance to avoid forfeiting your deposit.\n\nWe can't wait to ${isCourse ? "teach you" : "see you"}! 💅\n\n— Bloom Skills & Beauty`;
+  };
+
+  const generateCancellationMessage = (b) => {
+    return `Hi ${b.client_name || "Client"}, we're sorry but your booking for *${b.service_detail || "your service"}* on *${b.preferred_date || "your date"}* has been *cancelled*. Please WhatsApp us to rebook. 💬\n\n— Bloom Skills & Beauty`;
+  };
+
   const updateStatus = async (booking, newStatus) => {
     if (!booking || !booking.id) {
       showToast('Invalid booking data', 'error');
@@ -321,22 +324,14 @@ function Dashboard() {
     setUpdating(booking.id);
     try {
       const updatedBooking = await ndumie.entities.Booking.update(booking.id, { status: newStatus });
-      // Update local state with the response from server
       setBookings(prev => prev.map(b => b.id === booking.id ? { ...b, status: newStatus, ...updatedBooking } : b));
 
       if (newStatus === "confirmed" || newStatus === "cancelled") {
-        // Send email notification if client has email
-        if (booking.client_email) {
-          // Email notification can be added via a Netlify Function in future
-        }
-        // Open WhatsApp to send message to client with safe phone handling
         try {
           const rawPhone = booking.client_phone?.replace(/\D/g, '') || '';
           const phone = rawPhone.startsWith('27') ? rawPhone : rawPhone.startsWith('0') ? '27' + rawPhone.slice(1) : rawPhone ? '27' + rawPhone : '';
           if (phone) {
-            const msg = newStatus === "confirmed"
-              ? `Hi ${booking.client_name || 'Client'}! 🌸 Your booking for *${booking.service_detail || 'your service'}* on *${booking.preferred_date || 'your date'}* at *${booking.preferred_time || 'your time'}* has been *confirmed*. We can't wait to see you! 💅\n\n📍 Sangro House, Durban\n📞 079 806 0310\n\n⏰ *Please arrive at least 15 minutes early.*\n\n⚠️ *Late Arrival Policy:* If you arrive 15 minutes or more late, your booking will be automatically cancelled. Please WhatsApp us if you are running behind.\n\n❌ *Cancellation Policy:* Please notify us at least 24 hours in advance if you need to cancel or reschedule.\n\n— Bloom Skills & Beauty`
-              : `Hi ${booking.client_name || 'Client'}, we're sorry but your booking for *${booking.service_detail || 'your service'}* on *${booking.preferred_date || 'your date'}* has been *cancelled*. Please WhatsApp us to rebook. 💬\n\n— Bloom Skills & Beauty`;
+            const msg = newStatus === "confirmed" ? generateWhatsAppMessage(booking) : generateCancellationMessage(booking);
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
           }
         } catch (whatsappErr) {
@@ -365,7 +360,6 @@ function Dashboard() {
         setBookings(prev => prev.filter(b => b.id !== bookingId));
         showToast('Booking deleted successfully ✓');
       } catch (err) {
-        console.error('Failed to delete booking:', err);
         showToast(`Failed to delete booking: ${err.message || 'Unknown error'}`, 'error');
       } finally {
         setUpdating(null);
@@ -413,7 +407,6 @@ function Dashboard() {
         setMigrateResult({ error: "Invalid JSON — please paste valid JSON data." });
         return;
       }
-      // Accept either an array directly, or { bookings: [...] }
       const bookingsArr = Array.isArray(parsed) ? parsed : (parsed.bookings || []);
       const token = (() => {
         try { return JSON.parse(localStorage.getItem("bloom_admin_session"))?.token || ""; } catch { return ""; }
@@ -490,10 +483,9 @@ function Dashboard() {
     }
   };
 
-  // Safe filtering - ensure bookings is always an array and validate entries
   const safeBookings = Array.isArray(bookings) ? bookings.filter(b => b && typeof b === 'object' && b.id) : [];
   const filtered = safeBookings.filter(b => {
-    if (!b) return false; // Skip null/undefined entries
+    if (!b) return false;
     if (b.service_category === "announcement") return false;
     const matchSearch =
       (b.client_name || "").toLowerCase().includes(search.toLowerCase()) ||
@@ -561,15 +553,15 @@ function Dashboard() {
         <div className="flex gap-0 mb-6 border-b border-border overflow-x-auto scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
           <div className="flex gap-0 min-w-max sm:min-w-0 sm:flex-wrap">
             {[
-              { id: "services",      label: "Services",         emoji: "💅" },
-              { id: "enrolled",      label: "Courses",          emoji: "🎓" },
-              { id: "analytics",     label: "Analytics",        emoji: "📊" },
-              { id: "announcements", label: "News",             emoji: "📢" },
-              { id: "users",         label: "Users",            emoji: "👥" },
-              { id: "recalled",      label: "Deleted",          emoji: "🗑️" },
-              { id: "webservices",   label: "Web",              emoji: "🌐" },
-              { id: "whatsapp",      label: "Chat",             emoji: "💬" },
-              { id: "migrate",       label: "Import",           emoji: "📥" },
+              { id: "services",      label: "Services",       emoji: "💅" },
+              { id: "enrolled",      label: "Courses",        emoji: "🎓" },
+              { id: "analytics",     label: "Analytics",      emoji: "📊" },
+              { id: "announcements", label: "News",           emoji: "📢" },
+              { id: "users",         label: "Users",          emoji: "👥" },
+              { id: "recalled",      label: "Deleted",        emoji: "🗑️" },
+              { id: "webservices",   label: "Web",            emoji: "🌐" },
+              { id: "whatsapp",      label: "Chat",           emoji: "💬" },
+              { id: "migrate",       label: "Import",         emoji: "📥" },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -595,7 +587,6 @@ function Dashboard() {
         {/* Announcements Tab */}
         {activeTab === "announcements" && (
           <div className="space-y-6">
-            {/* Compose */}
             <div className="bg-card border border-border/50 rounded-2xl p-5">
               <h3 className="font-heading text-base font-semibold text-foreground mb-4">📢 Post New Announcement</h3>
               <div className="space-y-3">
@@ -627,7 +618,6 @@ function Dashboard() {
               </div>
             </div>
 
-            {/* List */}
             {announcements.length === 0 ? (
               <div className="text-center py-16 text-muted-foreground">
                 <p className="text-4xl mb-3">📭</p>
@@ -710,7 +700,6 @@ function Dashboard() {
         {/* Users Tab */}
         {activeTab === "users" && (
           <div className="space-y-5">
-            {/* Header row */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex gap-2 flex-wrap">
                 <div className="relative">
@@ -747,7 +736,6 @@ function Dashboard() {
               </div>
             </div>
 
-            {/* Add user form */}
             {addingUser && (
               <div className="bg-card border border-border/50 rounded-2xl p-5 space-y-3">
                 <h3 className="font-semibold text-sm text-foreground">Add New User</h3>
@@ -773,7 +761,6 @@ function Dashboard() {
               </div>
             )}
 
-            {/* Stats */}
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-primary/5 border border-primary/15 rounded-2xl p-4">
                 <p className="font-heading text-2xl font-black text-primary">{users.filter(u => u.role === "admin").length}</p>
@@ -785,14 +772,12 @@ function Dashboard() {
               </div>
             </div>
 
-            {/* Users list */}
             {usersLoading ? (
               <div className="flex items-center justify-center py-16 gap-2 text-muted-foreground">
                 <Loader2 className="w-5 h-5 animate-spin" /> Loading users...
               </div>
             ) : (
               <div className="bg-card border border-border/50 rounded-2xl overflow-hidden">
-                {/* Table header - hidden on mobile */}
                 <div className="hidden sm:grid grid-cols-12 gap-2 px-5 py-3 bg-secondary/50 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   <div className="col-span-4">Name</div>
                   <div className="col-span-2">Role</div>
@@ -809,7 +794,6 @@ function Dashboard() {
                   .map((u, i) => (
                     <div key={u.id}
                       className={`px-4 sm:px-5 py-4 border-b border-border/40 last:border-0 ${i % 2 === 0 ? "" : "bg-secondary/20"}`}>
-                      {/* Mobile layout */}
                       <div className="flex items-start justify-between gap-3 sm:hidden">
                         <div className="min-w-0">
                           <p className="font-medium text-foreground text-sm truncate">{u.name || "—"}</p>
@@ -821,7 +805,6 @@ function Dashboard() {
                           <Button size="sm" variant="ghost" className="rounded-lg h-7 px-2 text-red-500 hover:bg-red-50" onClick={() => deleteUser(u.id)}>🗑️</Button>
                         </div>
                       </div>
-                      {/* Desktop layout */}
                       <div className="hidden sm:grid grid-cols-12 gap-2 items-center text-sm">
                         <div className="col-span-4">
                           <p className="font-medium text-foreground truncate">{u.name || "—"}</p>
@@ -1071,14 +1054,18 @@ function Dashboard() {
               </div>
             ) : (
               <div className="space-y-3">
-                {/* Safe map with enhanced validation */}
                 {Array.isArray(filtered) && filtered.map((b, i) => {
-                  // Skip invalid entries
                   if (!b || typeof b !== 'object' || !b.id) {
                     console.warn('Skipping invalid booking entry:', b);
                     return null;
                   }
                   const StatusIcon = STATUS_ICONS[b.status] || Clock;
+                  
+                  const rawPhone = b.client_phone?.replace(/\D/g, '') || '';
+                  const validPhone = rawPhone.startsWith('27') ? rawPhone : rawPhone.startsWith('0') ? '27' + rawPhone.slice(1) : rawPhone ? '27' + rawPhone : '';
+                  const waButtonMsg = generateWhatsAppMessage(b);
+                  const manualWhatsAppUrl = `https://wa.me/${validPhone}?text=${encodeURIComponent(waButtonMsg)}`;
+
                   return (
                     <motion.div
                       key={b.id}
@@ -1172,7 +1159,7 @@ function Dashboard() {
                             </Button>
                           )}
                           <a
-                            href={`https://wa.me/${(() => { const r = b.client_phone?.replace(/\D/g,'') || ''; return r.startsWith('27') ? r : r.startsWith('0') ? '27'+r.slice(1) : '27'+r; })()}?text=${encodeURIComponent(`Hi ${b.client_name}! 🌸 Your booking for ${b.service_detail} on ${b.preferred_date} at ${b.preferred_time} is confirmed. See you at Bloom Skills & Beauty! 💅`)}`}
+                            href={manualWhatsAppUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-full sm:w-auto"
@@ -1207,7 +1194,6 @@ function Dashboard() {
 export default function Admin() {
   const { user, isLoadingAuth } = useAuth();
 
-  // Also check localStorage session
   const localSession = (() => {
     try { return JSON.parse(localStorage.getItem("bloom_admin_session")); } catch { return null; }
   })();

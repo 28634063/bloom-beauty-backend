@@ -37,7 +37,7 @@ export default function BookingConfirmed() {
         enc(`*Start Date:* ${booking.preferred_date}`),
         enc(`*Course Fee:* R${booking.price}`),
         "",
-        enc("Please find my *R1,500 registration deposit* proof of payment attached. Thank you!"),
+        enc("Please find my *R2,250 (50% registration deposit)* proof of payment attached. Thank you!"),
       ].join(nl)
     : [
         enc("Hi Bloom Skills & Beauty!"),
@@ -58,7 +58,7 @@ export default function BookingConfirmed() {
     : `Booking Confirmation - ${booking.client_name}`;
 
   const emailBody = isCourse
-    ? `Hi Bloom Skills & Beauty,\n\nI have just enrolled in the Beginner Nail Course online.\n\nName: ${booking.client_name}\nPhone: ${booking.client_phone}\nEmail: ${booking.client_email || "Not provided"}\nCourse: ${booking.service_detail}\nStart Date: ${booking.preferred_date}\nCourse Fee: R${booking.price}\n\nI have attached my R1,500 registration deposit proof of payment.\n\nThank you!\n${booking.client_name}`
+    ? `Hi Bloom Skills & Beauty,\n\nI have just enrolled in the Beginner Nail Course online.\n\nName: ${booking.client_name}\nPhone: ${booking.client_phone}\nEmail: ${booking.client_email || "Not provided"}\nCourse: ${booking.service_detail}\nStart Date: ${booking.preferred_date}\nCourse Fee: R${booking.price}\n\nI have attached my R2,250 (50% registration deposit) proof of payment.\n\nThank you!\n${booking.client_name}`
     : `Hi Bloom Skills & Beauty,\n\nI have just completed my booking online.\n\nName: ${booking.client_name}\nPhone: ${booking.client_phone}\nEmail: ${booking.client_email || "Not provided"}\nService: ${booking.service_detail}\nDate: ${booking.preferred_date}\nTime: ${booking.preferred_time}\n\nI have attached my R100 deposit proof of payment.\n\nSee you soon!\n${booking.client_name}`;
 
   const whatsappUrl = `https://wa.me/27798060310?text=${whatsappMsg}`;
@@ -151,7 +151,7 @@ export default function BookingConfirmed() {
                 <div className="flex justify-between"><span>Reference</span><span className="font-semibold">{booking.client_name}</span></div>
               </div>
               <p className="text-xs text-blue-700 mt-3 font-medium">
-                💳 Deposit: <strong>{isCourse ? "R1,500 registration fee" : "R100 to secure your slot"}</strong>
+                💳 Deposit: <strong>{isCourse ? "R2,250 (50% registration fee)" : "R100 to secure your slot"}</strong>
               </p>
             </div>
 
@@ -168,7 +168,6 @@ export default function BookingConfirmed() {
 
             {/* Actions */}
             <div className="space-y-3 pt-1">
-              {/* Send both at once */}
               <Button
                 size="lg"
                 className="w-full rounded-xl bg-primary hover:bg-primary/90 text-white font-semibold shadow-md gap-2"
@@ -179,7 +178,6 @@ export default function BookingConfirmed() {
                 Send Proof via WhatsApp & Email
               </Button>
 
-              {/* Individual options */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   <Button variant="outline" className="w-full rounded-xl gap-1.5 border-green-300 text-green-700 hover:bg-green-50">

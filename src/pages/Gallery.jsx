@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { galleryImages } from "@/lib/images";
+import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 const images = galleryImages;
 
 export default function Gallery() {
+  const { openBookingModal } = useBookingPolicy();
+
   return (
     <div className="py-12 sm:py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -55,11 +57,13 @@ export default function Gallery() {
             Love what you see?
           </h3>
           <p className="text-muted-foreground text-sm mb-6">Book your appointment and let us create something beautiful for you.</p>
-          <Link to="/book">
-            <Button size="lg" className="rounded-full px-12 py-6 text-base bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
-              Book Your Service ✨
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            onClick={() => openBookingModal()}
+            className="rounded-full px-12 py-6 text-base bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20"
+          >
+            Book Your Service ✨
+          </Button>
         </motion.div>
       </div>
     </div>

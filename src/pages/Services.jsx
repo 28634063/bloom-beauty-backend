@@ -1,50 +1,55 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const nailServices = {
   title: "Nail Services",
   emoji: "💅",
   categories: [
     {
-      name: "Acrylic Extensions",
+      name: "Acrylic Services",
       items: [
-        { service: "Plain Short", price: 200, from: true },
-        { service: "Plain Medium", price: 230, from: true },
-        { service: "Plain Long", price: 250, from: true },
+        { service: "Short Plain / Frenchie", price: 250 },
+        { service: "Medium Plain / Frenchie", price: 280 },
+        { service: "Long Plain / Frenchie", price: 300 },
       ],
     },
     {
       name: "Gel Services",
       items: [
-        { service: "Rubberbase Gel Overlay", price: 220, from: true },
-        { service: "Polygel Extensions", price: 250, from: true },
-        { service: "Gel Overlay", price: 150, from: true },
-        { service: "Gel-X Extensions", price: 200, from: true },
+        { service: "Rubberbase Gel", price: 250, from: true },
+        { service: "Polygel", price: 280, from: true },
+        { service: "Gel Extensions", price: 220, from: true },
+      ],
+    },
+    {
+      name: "Pedicure",
+      items: [
+        { service: "Gel Toes", price: 120 },
+        { service: "Acrylic Frenchies / Plain", price: 160 },
+        { service: "Rubberbase Frenchies / Plain", price: 150 },
+        { service: "Polygel Frenchies / Plain", price: 200 },
+      ],
+    },
+    {
+      name: "Soak Off",
+      items: [
+        { service: "In-house Soak", price: 70 },
+        { service: "Foreign Soak", price: 100 },
       ],
     },
     {
       name: "Enhancements ✨",
       items: [
-        { service: "Minimal Art", price: 20, from: true },
-        { service: "Detailed Art (Frenchie)", price: 50, from: true },
-        { service: "3D Art", price: 20, from: true },
+        { service: "Frenchie Minimal Art", price: 20, from: true },
+        { service: "Detailed Art", price: 50, from: true },
+        { service: "3D Art", price: 30, from: true },
+        { service: "Cateye", price: 50, from: true },
+        { service: "Chrome", price: 50, from: true },
+        { service: "Aura", price: 20, from: true },
       ],
       note: "Prices may vary depending on design complexity.",
-    },
-    {
-      name: "Pedicure",
-      items: [
-        { service: "Classic Gel Toes", price: 120 },
-        { service: "Classic French Toes", price: 160 },
-      ],
-    },
-    {
-      name: "🤍 Combos",
-      items: [
-        { service: "Plain Hands & Toes", price: 340 },
-        { service: "French Hands & Toes", price: 450 },
-      ],
     },
   ],
 };
@@ -82,8 +87,19 @@ function PriceCategory({ category, delay }) {
 }
 
 export default function Services() {
+  const [isPolicyModalOpen, setIsPolicyModalOpen] = useState(false);
+  const [policyAgreed, setPolicyAgreed] = useState(false);
+  const navigate = useNavigate();
+
+  const handleProceedToBooking = () => {
+    if (policyAgreed) {
+      setIsPolicyModalOpen(false);
+      navigate("/book");
+    }
+  };
+
   return (
-    <div className="py-12 sm:py-20">
+    <div className="py-12 sm:py-20 relative">
       {/* Header */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center mb-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -98,79 +114,110 @@ export default function Services() {
         </motion.div>
       </div>
 
-
       {/* Price Lists */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-      <div className="flex flex-col gap-12">
-        <div id="nails">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-2xl shadow-sm">
-              {nailServices.emoji}
+        <div className="flex flex-col gap-12">
+          <div id="nails">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-2xl shadow-sm">
+                {nailServices.emoji}
+              </div>
+              <h2 className="font-heading text-2xl font-bold text-foreground">{nailServices.title}</h2>
             </div>
-            <h2 className="font-heading text-2xl font-bold text-foreground">{nailServices.title}</h2>
-          </div>
-          <div className="bg-card rounded-3xl border border-border/50 p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow">
-            {nailServices.categories.map((cat, i) => (
-              <PriceCategory key={cat.name} category={cat} delay={i * 0.06} />
-            ))}
+            <div className="bg-card rounded-3xl border border-border/50 p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow">
+              {nailServices.categories.map((cat, i) => (
+                <PriceCategory key={cat.name} category={cat} delay={i * 0.06} />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-
-        {/* Payment Info */}
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-16 rounded-3xl overflow-hidden"
-          style={{ background: "linear-gradient(135deg, #fdf6f7, #fef9f0)" }}
-        >
-          <div className="p-6 sm:p-8 md:p-12 text-center border border-primary/10 rounded-3xl">
-            <span className="text-4xl mb-4 block">💳</span>
-            <h3 className="font-heading text-2xl font-bold text-foreground mb-2">Payment Details</h3>
-            <p className="text-muted-foreground text-sm mb-6">Direct Deposit — Immediate Payment Required</p>
-            <div className="inline-flex flex-col items-center bg-white rounded-2xl p-6 border border-border/50 shadow-sm">
-              <p className="text-sm text-muted-foreground uppercase tracking-widest font-medium mb-1">FNB Account</p>
-              <p className="font-heading text-3xl font-black text-primary tracking-widest">63193553469</p>
-              <p className="text-xs text-muted-foreground mt-2">Branch: 250355 • Use your name as reference</p>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Policy Notice */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 bg-rose-50 border border-rose-200 rounded-3xl p-6 sm:p-8 md:p-10"
-        >
-          <div className="text-center mb-6">
-            <span className="text-3xl">⏰</span>
-            <h3 className="font-heading text-xl font-bold text-foreground mt-2">Late Arrival & Cancellation Policy</h3>
-          </div>
-          <div className="max-w-xl mx-auto space-y-4 text-sm text-muted-foreground">
-            <div className="flex items-start gap-3">
-              <span className="text-lg shrink-0">✅</span>
-              <p><strong className="text-foreground">No extra charge for being late</strong> — there is no additional fee if you arrive late to your appointment.</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="text-lg shrink-0">❌</span>
-              <p><strong className="text-foreground">15-minute rule</strong> — if you are <strong>15 minutes or more late</strong>, your booking will be automatically cancelled. Please contact us via WhatsApp if you're running behind.</p>
-            </div>
-          </div>
-        </motion.div>
 
         {/* CTA */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-16">
           <p className="text-muted-foreground text-sm mb-6 italic">Ready to glow? Book your appointment today ✨</p>
-          <Link to="/book">
-            <Button size="lg" className="rounded-full px-12 py-6 text-base bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
-              Book Now 💅
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            onClick={() => setIsPolicyModalOpen(true)}
+            className="rounded-full px-12 py-6 text-base bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20"
+          >
+            Book Now 💅
+          </Button>
         </div>
       </div>
+
+      {/* Policy Agreement Pop-Up Modal */}
+      <AnimatePresence>
+        {isPolicyModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2 }}
+              className="bg-background border border-border rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative"
+            >
+              <div className="text-center mb-6">
+                <span className="text-4xl">⏰</span>
+                <h3 className="font-heading text-2xl font-bold text-foreground mt-2">
+                  Booking Policy Notice
+                </h3>
+                <p className="text-muted-foreground text-xs mt-1">
+                  Please read and accept our policies before booking.
+                </p>
+              </div>
+
+              <div className="space-y-4 text-sm text-muted-foreground bg-rose-50/70 border border-rose-200/80 rounded-2xl p-4 sm:p-5 mb-6">
+                <div className="flex items-start gap-3">
+                  <span className="text-lg shrink-0">✅</span>
+                  <p>
+                    <strong className="text-foreground">No extra charge for being late:</strong> There is no fee penalty if you are running late.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-lg shrink-0">❌</span>
+                  <p>
+                    <strong className="text-foreground">15-minute cancellation rule:</strong> Arriving <strong>15 minutes or later</strong> results in an automatic cancellation to avoid delaying subsequent clients.
+                  </p>
+                </div>
+              </div>
+
+              {/* Agreement Checkbox */}
+              <label className="flex items-center gap-3 cursor-pointer select-none mb-6 p-3 rounded-xl hover:bg-muted/50 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={policyAgreed}
+                  onChange={(e) => setPolicyAgreed(e.target.checked)}
+                  className="w-5 h-5 rounded border-border text-primary focus:ring-primary accent-primary cursor-pointer"
+                />
+                <span className="text-sm font-medium text-foreground">
+                  I have read, understood, and agree to the policy
+                </span>
+              </label>
+
+              {/* Modal Buttons */}
+              <div className="flex flex-col-reverse sm:flex-row gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setIsPolicyModalOpen(false);
+                    setPolicyAgreed(false);
+                  }}
+                  className="flex-1 rounded-full py-5"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  disabled={!policyAgreed}
+                  onClick={handleProceedToBooking}
+                  className="flex-1 rounded-full py-5 bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
+                >
+                  Proceed to Book 💅
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

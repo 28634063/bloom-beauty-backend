@@ -1,5 +1,3 @@
--- Run this in Supabase SQL Editor (supabase.com → your project → SQL Editor)
-
 -- Bookings table
 create table if not exists bookings (
   id text primary key,
@@ -8,6 +6,7 @@ create table if not exists bookings (
   client_email text,
   service_category text,
   service_detail text,
+  duration_minutes integer default 120, -- Added for dynamic slots
   preferred_date text,
   preferred_time text,
   price numeric default 0,

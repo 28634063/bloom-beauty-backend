@@ -3,9 +3,9 @@
  * Replace these with your own hosted images (e.g. Cloudinary, Netlify Large Media, or /public folder).
  */
 
-export const heroImage = "https://media.base44.com/images/public/69c85189646ba632d738f811/c30c7db97_WhatsAppImage2026-04-03at095902.jpg";
-export const courseImage = "https://media.base44.com/images/public/69c85189646ba632d738f811/6c4856f9a_WhatsAppImage2026-03-29at161158.jpg";
-export const aboutImage = "https://media.base44.com/images/public/69c85189646ba632d738f811/c8cd671aa_WhatsAppImage2026-03-29at1611561.jpg";
+export const heroImage = "https://nawvlubfprsegrtyqyjo.supabase.co/storage/v1/object/public/images/c8cd671aa_WhatsAppImage2026-03-29at1611561.jpg";
+export const courseImage = "https://nawvlubfprsegrtyqyjo.supabase.co/storage/v1/object/public/images/6c4856f9a_WhatsAppImage2026-03-29at161158.jpg";
+export const aboutImage = "https://nawvlubfprsegrtyqyjo.supabase.co/storage/v1/object/public/images/c8cd671aa_WhatsAppImage2026-03-29at1611561.jpg";
 
 export const galleryImages = [
   { src: "https://media.base44.com/images/public/69c85189646ba632d738f811/3c4247ab4_WhatsAppImage2026-03-29at1611562.jpg", alt: "White Cream Nails" },

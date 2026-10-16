@@ -1,7 +1,7 @@
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 const contactItems = [
   {
@@ -35,6 +35,8 @@ const contactItems = [
 ];
 
 export default function Contact() {
+  const { openBookingModal } = useBookingPolicy();
+
   return (
     <div className="py-12 sm:py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
@@ -58,7 +60,14 @@ export default function Contact() {
             >
               <item.icon className="w-8 h-8 text-primary mb-4" />
               <h3 className="font-heading text-lg font-semibold text-foreground mb-1">{item.title}</h3>
-              <p className={`text-sm mb-4 ${item.action && item.title === 'Location' ? 'text-primary cursor-pointer hover:underline' : 'text-muted-foreground'}`} onClick={() => item.title === 'Location' && window.open(item.action, '_blank')}>
+              <p
+                className={`text-sm mb-4 ${
+                  item.action && item.title === "Location"
+                    ? "text-primary cursor-pointer hover:underline"
+                    : "text-muted-foreground"
+                }`}
+                onClick={() => item.title === "Location" && window.open(item.action, "_blank")}
+              >
                 {item.detail}
               </p>
               {item.action && (
@@ -98,23 +107,15 @@ export default function Contact() {
           </a>
         </motion.div>
 
-        {/* Payment */}
-        <div className="mt-12 bg-card rounded-2xl border border-border/50 p-8 text-center">
-          <h3 className="font-heading text-xl font-semibold text-foreground mb-2">💳 Payment Details</h3>
-          <p className="text-muted-foreground text-sm mb-4">Direct Deposit (Immediate Payment)</p>
-          <div className="inline-flex flex-col items-center bg-secondary/50 rounded-xl p-6">
-            <p className="font-semibold text-foreground">FNB Account</p>
-            <p className="text-2xl font-heading font-bold text-primary mt-1">63193553469</p>
-            <p className="text-xs text-muted-foreground mt-1">Branch: 250355 • Use your name as reference</p>
-          </div>
-        </div>
-
+        {/* Bottom Booking CTA */}
         <div className="text-center mt-12">
-          <Link to="/book">
-            <Button size="lg" className="rounded-full px-10 bg-primary hover:bg-primary/90 text-primary-foreground">
-              Book Your Appointment
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            onClick={() => openBookingModal()}
+            className="rounded-full px-10 bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            Book Your Appointment
+          </Button>
         </div>
       </div>
     </div>

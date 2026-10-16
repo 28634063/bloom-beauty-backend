@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -38,8 +36,8 @@ export default function CoursePreview({ courseImage }) {
               <span>💅</span> Beginner Nail Course <span>🎓</span>
             </h2>
             <div className="flex items-baseline gap-3 mb-6">
-              <span className="font-heading text-4xl font-bold text-primary">R3,500</span>
-              <span className="text-muted-foreground">• 2 Weeks</span>
+              <span className="font-heading text-4xl font-bold text-primary">R4,500</span>
+              <span className="text-muted-foreground">2 Weeks</span>
             </div>
 
             <p className="text-muted-foreground leading-relaxed mb-8">
@@ -72,14 +70,8 @@ export default function CoursePreview({ courseImage }) {
             </div>
 
             <p className="text-xs text-muted-foreground mb-6">
-              Course Fee: R3,500 · Non-refundable deposit: R1,500 · Balance: R2,000
+              Course Fee: R4,500 · 50% non-refundable deposit: R2,250 · Balance: R2,250
             </p>
-
-            <Link to="/book?service=course">
-              <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 text-primary-foreground">
-                Enrol Now
-              </Button>
-            </Link>
           </motion.div>
 
           <motion.div

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 const reviews = [
   { name: "Naledi M.", rating: 5, text: "Absolutely obsessed with my nails! The attention to detail is unmatched. My set lasted over 3 weeks perfectly." },
@@ -10,6 +10,8 @@ const reviews = [
 ];
 
 export default function TestimonialsSection() {
+  const { openBookingModal } = useBookingPolicy();
+
   return (
     <section className="py-24 px-4 sm:px-6 bg-secondary/30">
       <div className="max-w-6xl mx-auto">
@@ -25,6 +27,31 @@ export default function TestimonialsSection() {
           </h2>
         </motion.div>
 
+        {/* Reviews Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {reviews.map((review, i) => (
+            <motion.div
+              key={review.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-card border border-border/50 rounded-2xl p-6 shadow-sm flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex gap-1 text-amber-400 mb-3 text-sm">
+                  {"★".repeat(review.rating)}
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed italic mb-4">
+                  "{review.text}"
+                </p>
+              </div>
+              <p className="text-sm font-semibold text-foreground">{review.name}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Call-to-Action Banner */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -36,14 +63,17 @@ export default function TestimonialsSection() {
             Book your appointment today or enrol in our beginner nail course and start your beauty journey.
           </p>
           <p className="opacity-80 mb-8 max-w-md mx-auto text-sm font-medium">
-            💳 Nail Course: <strong>R3,500</strong> (R1,500 deposit) · Appointments: <strong>R100 deposit</strong>
+            💳 Nail Course: <strong>R4,500</strong> (50% deposit) · Appointments: <strong>R100 deposit</strong>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/book">
-              <Button size="lg" variant="secondary" className="rounded-full px-8 text-primary font-semibold">
-                Book Now
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              variant="secondary"
+              onClick={() => openBookingModal()}
+              className="rounded-full px-8 text-primary font-semibold"
+            >
+              Book Now
+            </Button>
             <a href="https://wa.me/27798060310?text=Hi%20Bloom!%20I'd%20like%20to%20enquire." target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="rounded-full px-8 bg-white text-black hover:bg-white/90 font-semibold">
                 WhatsApp Us

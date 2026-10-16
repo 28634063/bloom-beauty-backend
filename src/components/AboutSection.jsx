@@ -1,8 +1,8 @@
 import { aboutImage } from "@/lib/images";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Heart, Award } from "lucide-react";
+import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 const values = [
   { icon: Sparkles, label: "Precision", desc: "Every set is crafted with care and attention to detail." },
@@ -11,6 +11,8 @@ const values = [
 ];
 
 export default function AboutSection() {
+  const { openBookingModal } = useBookingPolicy();
+
   return (
     <section className="py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
@@ -71,11 +73,13 @@ export default function AboutSection() {
               ))}
             </div>
 
-            <Link to="/book">
-              <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
-                Book With Us
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              onClick={() => openBookingModal()}
+              className="rounded-full px-8 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20"
+            >
+              Book With Us
+            </Button>
           </motion.div>
         </div>
       </div>

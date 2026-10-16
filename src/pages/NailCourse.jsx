@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const curriculum = [
@@ -22,7 +21,7 @@ const benefits = [
 
 const stats = [
   { label: "Duration", value: "2 Weeks", emoji: "⏰" },
-  { label: "Course Fee", value: "R3,500", emoji: "💰" },
+  { label: "Course Fee", value: "R4,500", emoji: "💰" },
   { label: "Certificate", value: "Included", emoji: "🎓" },
   { label: "Mentorship", value: "2 Months", emoji: "🤝" },
 ];
@@ -62,21 +61,17 @@ export default function NailCourse() {
             </div>
             <div className="flex items-center gap-3">
               <span className="text-2xl">💰</span>
-              <span className="text-sm text-foreground"><strong>Course Fee:</strong> R3,500 (R1,500 non-refundable deposit required)</span>
+              <span className="text-sm text-foreground"><strong>Course Fee:</strong> R4,500 (50% non-refundable deposit required)</span>
             </div>
           </div>
           <p className="text-sm text-muted-foreground mb-8">Limited spots available. Enroll today and start your beauty career journey! 🌸</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/book?service=course">
-              <Button size="lg" className="rounded-full px-12 py-6 text-base font-bold shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground">
-                Book a Course 🌸
-              </Button>
-            </Link>
-            <div className="flex items-center gap-2 px-6 py-3 rounded-full border-2 border-primary bg-primary/5">
-              <span className="text-lg">💳</span>
+          
+          <div className="flex justify-center">
+            <div className="flex items-center gap-2 px-8 py-4 rounded-full border-2 border-primary bg-primary/5">
+              <span className="text-2xl">💳</span>
               <div className="text-left">
-                <p className="text-xs text-muted-foreground">Non-refundable Deposit (Total: R3,500)</p>
-                <p className="font-heading text-lg font-bold text-primary">R1,500 Deposit</p>
+                <p className="text-xs text-muted-foreground">50% Deposit (Total: R4,500)</p>
+                <p className="font-heading text-xl font-bold text-primary">R2,250 Deposit</p>
               </div>
             </div>
           </div>

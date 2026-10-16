@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { MapPin, Phone, Mail, Clock, Heart } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
+import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 export default function Footer() {
   const { user } = useAuth();
+  const { openBookingModal } = useBookingPolicy();
   const isAdmin = user?.role === 'admin';
+
   return (
     <footer className="bg-foreground text-background/80">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
@@ -25,19 +28,29 @@ export default function Footer() {
               {[
                 { label: "Services & Prices", to: "/services" },
                 { label: "Nail Course", to: "/nail-course" },
-                { label: "Book Appointment", to: "/book" },
+                { label: "Book Appointment", action: () => openBookingModal() },
                 { label: "Gallery", to: "/gallery" },
                 { label: "Contact Us", to: "/contact" },
-               ...(isAdmin ? [{ label: "Admin Dashboard", to: "/admin" }] : []),
-              ].map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className="block text-sm opacity-70 hover:opacity-100 transition-opacity"
-                >
-                  {link.label}
-                </Link>
-              ))}
+                ...(isAdmin ? [{ label: "Admin Dashboard", to: "/admin" }] : []),
+              ].map((link) =>
+                link.action ? (
+                  <button
+                    key={link.label}
+                    onClick={link.action}
+                    className="block text-left text-sm opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
+                  >
+                    {link.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="block text-sm opacity-70 hover:opacity-100 transition-opacity"
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
             </div>
           </div>
 
@@ -71,7 +84,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Floating WhatsApp Button — opens WhatsApp app directly */}
+      {/* Floating WhatsApp Button */}
       <a
         href="https://wa.me/27798060310?text=Hi%20Bloom%20Skills%20%26%20Beauty!%20I'd%20like%20to%20make%20an%20enquiry."
         target="_blank"

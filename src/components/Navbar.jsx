@@ -6,12 +6,14 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/AuthContext";
+import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { user, logout } = useAuth();
+  const { openBookingModal } = useBookingPolicy();
   const navigate = useNavigate();
 
   // Check both context user and localStorage — admins stay admins across refreshes
@@ -29,6 +31,11 @@ export default function Navbar() {
 
   const close = () => setOpen(false);
 
+  const handleBookClick = () => {
+    close();
+    openBookingModal();
+  };
+
   const handleLogout = () => {
     logout();
     close();
@@ -41,11 +48,11 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { label: "Home",        to: "/",            icon: Home },
-    { label: "Services",    to: "/services",    icon: Scissors },
-    { label: "Nail Course", to: "/nail-course", icon: GraduationCap },
-    { label: "Gallery",     to: "/gallery",     icon: Image },
-    { label: "Contact",     to: "/contact",     icon: Phone },
+    { label: "Home",         to: "/",             icon: Home },
+    { label: "Services",     to: "/services",     icon: Scissors },
+    { label: "Nail Course",  to: "/nail-course",  icon: GraduationCap },
+    { label: "Gallery",      to: "/gallery",      icon: Image },
+    { label: "Contact",      to: "/contact",      icon: Phone },
   ];
 
   return (
@@ -72,14 +79,13 @@ export default function Navbar() {
 
             {/* Right: Book Now + hamburger */}
             <div className="flex items-center gap-3">
-              <Link to="/book" onClick={close}>
-                <Button
-                  size="sm"
-                  className="rounded-full px-5 bg-primary hover:bg-primary/90 text-primary-foreground"
-                >
-                  Book Now
-                </Button>
-              </Link>
+              <Button
+                size="sm"
+                onClick={handleBookClick}
+                className="rounded-full px-5 bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                Book Now
+              </Button>
               <button
                 onClick={() => setOpen((v) => !v)}
                 className="p-2 rounded-xl hover:bg-secondary transition-colors"
