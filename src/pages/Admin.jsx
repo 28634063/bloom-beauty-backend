@@ -306,10 +306,11 @@ function Dashboard() {
   };
 
   // Safe, single-line template literals for WhatsApp messages
-  const generateWhatsAppMessage = (b) => {
+    const generateWhatsAppMessage = (b) => {
     const isCourse = b.service_category === "Beginner Nail Course";
-    const timeString = isCourse ? "" : ` at *${b.preferred_time || "your time"}*`;
-    return `Hi ${b.client_name || "there"}! 🌸\n\nYour booking for *${b.service_detail || "your service"}* on *${b.preferred_date || "your date"}*${timeString} has been *CONFIRMED*!\n\n📍 *Location:* Sangro House, Durban\n📞 *Contact:* 079 806 0310\n\n⚠️ *IMPORTANT POLICIES:*\n• *Lateness:* Please arrive at least 15 mins early. A strict 15-min grace period applies. If you are 15+ mins late, your booking is automatically cancelled and the deposit forfeited.\n• *Cancellations:* Rescheduling or cancellations must be done at least 24 hours in advance to avoid forfeiting your deposit.\n\nWe can't wait to ${isCourse ? "teach you" : "see you"}! 💅\n\n— Bloom Skills & Beauty`;
+    const timeString = isCourse ? "" : ` at ${b.preferred_time || "your time"}`;
+    
+    return `Hi ${b.client_name || "there"}!\n\nYour booking for ${b.service_detail || "your service"} on ${b.preferred_date || "your date"}${timeString} has been confirmed. We can't wait to see you!\n\n📍 Sangro House\nFloor 10 room 1015\n\n⏰ Please arrive at least 15 minutes early to give time to queue for the lift\nRemember to arrive 30 minutes early if you require a soak off.\n\n⚠️ Late Arrival Policy: If you arrive 15 minutes or more late, your booking will be automatically cancelled. Please WhatsApp us if you are running behind.\n\n❌ Cancellation Policy: Please notify us at least 24 hours in advance if you need to cancel or reschedule.\n\n— Bloom Skills & Beauty`;
   };
 
   const generateCancellationMessage = (b) => {
