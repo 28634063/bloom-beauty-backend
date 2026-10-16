@@ -13,7 +13,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const ADMIN_EMAILS = [
-    "phunyezwamjoli3@gmail.com",
+    "bloomskillsandbeauty@icloud.com",
     "s.m.shozi@hotmail.com",
     "thobsin.e@gmail.com",
   ];
