@@ -1065,7 +1065,7 @@ function Dashboard() {
                   const rawPhone = b.client_phone?.replace(/\D/g, '') || '';
                   const validPhone = rawPhone.startsWith('27') ? rawPhone : rawPhone.startsWith('0') ? '27' + rawPhone.slice(1) : rawPhone ? '27' + rawPhone : '';
                   const waButtonMsg = generateWhatsAppMessage(b);
-                  const manualWhatsAppUrl = `https://wa.me/${validPhone}?text=${encodeURIComponent(waButtonMsg)}`;
+                  const manualWhatsAppUrl = `https://wa.me/${validPhone}`;
 
                   return (
                     <motion.div
