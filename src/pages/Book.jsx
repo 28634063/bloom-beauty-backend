@@ -28,7 +28,7 @@ const toMinutes = (timeStr) => {
 };
 
 // Generate list of 30-minute candidate slots between open and close
-const generateCandidateSlots = (openTime = "08:00", closeTime = "16:00") => {
+const generateCandidateSlots = (openTime = "08:00", closeTime = "18:00") => {
   const slots = [];
   let current = toMinutes(openTime);
   const end = toMinutes(closeTime);
@@ -150,35 +150,63 @@ export default function Book() {
       service_category: service.id,
       service_detail: service.title,
       duration_minutes: service.duration,
-      preferred_time: "", // Reset time on duration change
+      preferred_time: "", 
     }));
   };
 
-  // Determine availability of a candidate start time
+  // --- ADJACENT ONLY ALGORITHM ---
   const isSlotAvailable = (startTimeStr) => {
     if (!date) return false;
     const startMin = toMinutes(startTimeStr);
     const duration = form.duration_minutes || 90;
     const endMin = startMin + duration;
+    
+    // Set exact closing times
     const isSaturday = date.getDay() === 6;
-    const closingMin = isSaturday ? toMinutes("14:30") : toMinutes("18:00");
+    const closingMin = isSaturday ? toMinutes("14:00") : toMinutes("18:00");
 
+    // 1. Boundary Check: Cannot exceed closing time
     if (endMin > closingMin) return false;
 
-    // Check collision with existing bookings
+    // 2. Overlap Check: Cannot clash with any existing booking
     for (const b of rawBookings) {
       if (!b.preferred_time || b.preferred_time === "All Day") continue;
       const bStart = toMinutes(b.preferred_time);
-      const bDuration = Number(b.duration_minutes) || 120; // 120 min default for legacy bookings
+      const bDuration = Number(b.duration_minutes) || 120;
       const bEnd = bStart + bDuration;
 
-      // Overlap condition: (StartA < EndB) and (EndA > StartB)
       if (startMin < bEnd && endMin > bStart) {
-        return false;
+        return false; // Absolute overlap
       }
     }
 
-    return true;
+    // 3. Efficiency Check (Adjacent Only Logic)
+    let isAdjacentOrAnchor = false;
+
+    // Rule A: Anchor Times (Every 2 hours starting at 08:00 -> 480 mins)
+    if (startMin % 120 === 0) {
+      isAdjacentOrAnchor = true;
+    }
+
+    // Rule B: Touches closing time (Fills the end of the day perfectly)
+    if (endMin === closingMin) {
+      isAdjacentOrAnchor = true;
+    }
+
+    // Rule C: Touches an existing appointment back-to-back
+    for (const b of rawBookings) {
+      if (!b.preferred_time || b.preferred_time === "All Day") continue;
+      const bStart = toMinutes(b.preferred_time);
+      const bDuration = Number(b.duration_minutes) || 120;
+      const bEnd = bStart + bDuration;
+
+      if (startMin === bEnd || endMin === bStart) {
+        isAdjacentOrAnchor = true;
+        break;
+      }
+    }
+
+    return isAdjacentOrAnchor;
   };
 
   // Validation Rules
@@ -266,7 +294,7 @@ export default function Book() {
 
   const isLastStep = step === LAST_STEP;
   const isSaturday = date?.getDay() === 6;
-  const candidateTimeSlots = generateCandidateSlots("08:00", isSaturday ? "14:30" : "18:00");
+  const candidateTimeSlots = generateCandidateSlots("08:00", isSaturday ? "14:00" : "18:00");
 
   return (
     <div className="min-h-screen py-8 sm:py-12 md:py-20 px-4 sm:px-6">
@@ -471,7 +499,7 @@ export default function Book() {
                       <Clock className="w-5 h-5 text-primary" /> Pick a Date &amp; Time
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                      Displaying slots available for your <strong>{form.duration_minutes} min</strong> treatment.
+                      Displaying optimal slots available for your <strong>{form.duration_minutes} min</strong> treatment.
                     </p>
                   </div>
 
@@ -513,6 +541,10 @@ export default function Book() {
                         {candidateTimeSlots.map((t) => {
                           const available = isSlotAvailable(t);
                           const isSelected = form.preferred_time === t;
+
+                          // Completely hide slots that violate the Adjacent Only / Tetris stacking rule
+                          if (!available && !isSelected) return null;
+
                           return (
                             <button
                               key={t}
@@ -521,17 +553,21 @@ export default function Book() {
                               disabled={!available}
                               className={`py-2.5 px-3 rounded-xl border-2 text-sm font-medium transition-all ${
                                 !available
-                                  ? "border-muted bg-muted/40 text-muted-foreground line-through cursor-not-allowed opacity-50"
+                                  ? "hidden"
                                   : isSelected
                                   ? "border-primary bg-primary text-primary-foreground shadow-md shadow-primary/20"
                                   : "border-border hover:border-primary/50 text-foreground"
                               }`}
                             >
                               {t}
-                              {!available && <span className="block text-[10px] no-underline">Unavailable</span>}
                             </button>
                           );
                         })}
+                        {candidateTimeSlots.every(t => !isSlotAvailable(t)) && (
+                          <div className="col-span-full py-4 text-center text-sm text-muted-foreground bg-secondary/30 rounded-xl">
+                            Sorry, no {form.duration_minutes}-minute slots available today.
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
