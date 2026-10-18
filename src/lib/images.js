@@ -9,6 +9,8 @@ export const courseImage = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/
 export const Drill = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/drill.jpeg";
 export const BeginnerCourse = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/begginer_course.jpeg";
 export const NailArt = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/nail_art.jpeg";
+export const NailServices = "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/Nail_service.jpeg";
+
 
 export const galleryImages = [
   { src: "https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/1.jpg" },
