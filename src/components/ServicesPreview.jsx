@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { aboutImage, Drill, NailArt } from "@/lib/images";
+import { aboutImage, Drill, NailArt,BeginnerCourse } from "@/lib/images";
 import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 const services = [
@@ -18,7 +18,7 @@ const services = [
     description: "2-week comprehensive beginner course with certificate, mentorship & training kit included.",
     icon: "",
     priceDisplay: "R4,500",
-    image: aboutImage,
+    image: BeginnerCourse,
     link: "/nail-course",
   },
   {
