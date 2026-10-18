@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { aboutImage, Drill, NailArt,BeginnerCourse } from "@/lib/images";
+import { aboutImage, Drill, NailArt, BeginnerCourse, NailServices } from "@/lib/images";
 import { useBookingPolicy } from "@/lib/BookingPolicyContext";
 
 const services = [
@@ -10,7 +10,7 @@ const services = [
     description: "Acrylic extensions, gel services, pedicures & stunning designs — from classic to bold.",
     icon: "",
     priceDisplay: "From R150",
-    image: aboutImage,
+    image: NailServices,
     link: "/services#nails",
   },
   {
