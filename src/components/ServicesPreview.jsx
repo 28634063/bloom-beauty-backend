@@ -18,7 +18,7 @@ const services = [
     description: "2-week comprehensive beginner course with certificate, mentorship & training kit included.",
     icon: "",
     priceDisplay: "R4,500",
-    image: aboutImage,
+    image: https://ikyljezurhnidsllmvej.supabase.co/storage/v1/object/public/images/begginer_course.jpeg,
     link: "/nail-course",
   },
   {
