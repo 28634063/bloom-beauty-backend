@@ -25,6 +25,12 @@ VITE_API_BASE=/api
 
 Visit `/admin` and enter your admin password to manage bookings and announcements.
 
+## Git Command - For cmd.
+
+git add .
+git commit -m "Thobani Mkhize"
+git push origin main
+
 ## Tech Stack
 
 - React + Vite
