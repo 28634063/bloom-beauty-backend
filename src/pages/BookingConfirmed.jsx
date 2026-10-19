@@ -161,7 +161,7 @@ export default function BookingConfirmed() {
               <div>
                 <p className="font-semibold mb-1">Thank you for choosing Bloom Skills & Beauty!</p>
                 <p className="text-xs leading-relaxed">
-                  Please arrive at least <strong>15 minutes early</strong>. If you arrive 15 minutes or more late, your booking will be automatically cancelled. To cancel or reschedule, notify us at least <strong>24 hours in advance</strong>. 🌸
+                  Due to high booking volumes, confirmations may take time but will be sent no later than the day before your appointment. If you have paid and not received confirmation by then, please contact us with your booking details and proof of payment. Also, remember to share your POP as it is very important for your booking confirmation. Thank you for your patience.
                 </p>
               </div>
             </div>
