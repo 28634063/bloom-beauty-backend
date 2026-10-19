@@ -27,9 +27,9 @@ Visit `/admin` and enter your admin password to manage bookings and announcement
 
 ## Git Command - For cmd.
 
-git add .
-git commit -m "Thobani Mkhize"
-git push origin main
+- git add .
+- git commit -m "Thobani Mkhize"
+- git push origin main
 
 ## Tech Stack
 
